@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Css/style.css">
+    <title>Cadastro</title>
+</head>
+
+<body class="fundo">
+    <header>
+        <h1 class="titulo">Cadastro</h1>
+    </header>
+    <section>
+        <div class="container">
+            <div id="txtinfo">
+                <div class="row">
+                    <div class="col-6 offset-3">
+                        <label for="nome" class="form-label">Nome:</label>
+                        <input type="text" class="form-control" name="nome" id="nome" aria-describedby="nomehelp"><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 offset-3">
+                        <label for="curso" class="form-label">Turma:</label>
+                        <select class="form-select" name="curso" id="curso">
+                            <option selected>Selecione a turma</option>
+                            <option value="1ºA">1ºA</option>
+                            <option value="1ºB">1ºB</option>
+                            <option value="2ºA">2ºA</option>
+                            <option value="2ºB">2ºB</option>
+                            <option value="3ºA">3ºA</option>
+                            <option value="3ºB">3ºB</option>
+                        </select><br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 offset-3">
+                        <label for="nascimento" class="form-label">Nascimento:</label>
+                        <input type="date" class="form-control" id="nascimento" name="nascimento"><br>
+                    </div>
+
+                    <div class="col-3 ">
+                        <label for="nacionalidade" class="form-label">Nacionalidade:</label>
+                        <input type="text" class="form-control" id="nacionalidade" name="nacionalidade"><br>
+                    </div>
+                </div>
+                <div class="col-6 offset-3 ">
+                    <label for="endereço" class="form-label">Endereço:</label>
+                    <input type="text" class="form-control" id="endereco" name="endereco"><br>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</body>
+
+</html>
