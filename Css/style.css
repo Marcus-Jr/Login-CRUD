@@ -7,6 +7,7 @@
 
 body {
     height: 900vh;
+    background-image: linear-gradient(to right, aqua, rgb(3, 2, 26));
 }
 
 nav.menu-lateral {
@@ -14,7 +15,7 @@ nav.menu-lateral {
     height: 100%;
     background-color: rgb(3, 2, 26);
     padding: 40px 0 40px 1%;
-    box-shadow: 3px 0 0 rgb(0, 255, 242);
+    box-shadow: 3px 0 0 aqua;
     position: fixed;
     top: 0;
     left: 0;
@@ -47,7 +48,7 @@ ul li.item-menu {
 }
 
 ul li.item-menu:hover {
-    background-color: rgb(0, 255, 242);
+    background-color: aqua
 }
 
 ul li.item-menu a {
@@ -92,7 +93,4 @@ ul li.item-menu a .icon>i {
 th{
     padding: 0 3em;
 }
-.button{
-   
 
-}
