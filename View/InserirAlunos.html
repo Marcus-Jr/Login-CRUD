@@ -59,20 +59,23 @@
         pointer-events: none;
         transition: .5s;
     }
-    .inputUser:focus ~ .labelInput,
-    .inputUser:valid ~ .labelInput{
+
+    .inputUser:focus~.labelInput,
+    .inputUser:valid~.labelInput {
         top: -20px;
         font-size: 12px;
         color: aqua;
     }
-    #nascimento{
+
+    #nascimento {
         border: none;
         padding: 8px;
         border-radius: 10px;
         outline: none;
         font-size: 15px;
     }
-    #submit{
+
+    #submit {
         background-image: linear-gradient(to right, rgb(21, 133, 133), rgb(0, 1, 82));
         width: 100%;
         border: none;
@@ -82,10 +85,12 @@
         font-size: 15px;
         cursor: pointer;
     }
-    #submit:hover{
+
+    #submit:hover {
         background-image: linear-gradient(to right, rgb(16, 114, 114), rgb(1, 2, 68));
     }
-    #turma{
+
+    #turma {
         border: none;
         padding: 8px;
         border-radius: 10px;
@@ -106,8 +111,8 @@
                     <label for="nome" class="labelInput">Nome</label>
                 </div>
                 <br><br>
-                    <label for="Nascimento">Data de nascimento</label>
-                    <input type="date" name="nascimento" id="nascimento" required>
+                <label for="Nascimento">Data de nascimento</label>
+                <input type="date" name="nascimento" id="nascimento" required>
                 <br><br>
                 <div class="inputBox">
                     <label for="Turma">Turma</label>
@@ -133,10 +138,37 @@
                     <label for="end" class="labelInput">Endereço</label>
                 </div>
                 <br><br>
-                <button type="submit" name="submit" id="submit">Enviar</button>
+                <button type="submit" name="submit" id="submit" onclick="enviaDados()">Enviar</button>
             </fieldset>
         </form>
     </div>
 </body>
 
 </html>
+<script>
+    enviaDados();{
+        
+        let info = {
+            method: "GET",
+            body: {
+                dados:[
+                    nome= document.getElementById('nome'),
+                    nascimento=  document.getElementById('nascimento'),
+                    turma= document.getElementById('turma'),
+                    nacionalidade= document.getElementById('nac'),
+                    endereco= document.getElementById('end')
+
+            ]
+            }
+        };
+
+        fetch("../Model/DAO.Class.php", info)
+            .then(function (response) {
+                return response.blob();
+            })
+            .then(function (myBlob) {
+                var objectURL = URL.createObjectURL(myBlob);
+                myImage.src = objectURL;
+            });
+    }
+</script>
