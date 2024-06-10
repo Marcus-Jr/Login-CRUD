@@ -14,3 +14,12 @@ function conexao()
         echo "Conectado!";
     }
 }
+function insereAluno()
+{
+}
+function atualizaAluno()
+{
+}
+function deletaAluno()
+{
+}
