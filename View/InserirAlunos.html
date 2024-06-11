@@ -146,29 +146,29 @@
 
 </html>
 <script>
-    enviaDados();{
-        
-        let info = {
-            method: "GET",
-            body: {
-                dados:[
-                    nome= document.getElementById('nome'),
-                    nascimento=  document.getElementById('nascimento'),
-                    turma= document.getElementById('turma'),
-                    nacionalidade= document.getElementById('nac'),
-                    endereco= document.getElementById('end')
+    enviaDados = () => {
 
-            ]
+        let formulario = {
+            funcao: 'Adicionar',
+            dados: {
+                nome: document.getElementById('nome').value,
+                nascimento: document.getElementById('nascimento').value,
+                turma: document.getElementById('turma').value,
+                nacionalidade: document.getElementById('nac').value,
+                endereco: document.getElementById('end').value
             }
         };
 
-        fetch("../Model/DAO.Class.php", info)
-            .then(function (response) {
-                return response.blob();
-            })
-            .then(function (myBlob) {
-                var objectURL = URL.createObjectURL(myBlob);
-                myImage.src = objectURL;
-            });
+        let informacao = {
+            method: "POST",
+            body: JSON.stringify(formulario)
+        }
+        let url = "../Controller/Cadastrar.php"
+        let response = fetch(url, informacao)
+            .then((response) => response.json()).then((data) => {
+                console.log(data)
+            }).catch((error)=> {
+                console.log('ERRO')
+            }) 
     }
 </script>
