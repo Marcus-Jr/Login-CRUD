@@ -43,7 +43,7 @@ class DAO
 
         $conexao = $this->Conexao();
 
-        $tabela = 'nome da tabela';
+        $tabela = 'alunos';
         $nome = $dadosArray["nome"];
         $nascimento = $dadosArray["nascimento"];
         $turma = $dadosArray['turma'];
