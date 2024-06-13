@@ -1,11 +1,10 @@
 <?php
-include_once '../Model/DAO.Class.php';
 include_once '../Model/Alunos.Class.php';
 
 class DadosController extends Alunos {
 
-    public function InserirAluno($dadosArray){
-        $this->InserirNoBanco($dadosArray);
+    public function InserirAluno($coisa){
+        $this->InserirNoBanco($coisa);
     }
 }
 
@@ -20,7 +19,7 @@ var_dump($dadosArray);
 $funcao = $dadosArray['funcao'];
 
 
-$ObjAlunos = new Alunos;
+$ObjAlunos = new DadosController;
 
 $ObjAlunos->$funcao($DadosParaFuncao);
 ?>

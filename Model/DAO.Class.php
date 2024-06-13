@@ -8,7 +8,7 @@ class DAO
     public function Conexao()
     {
         $hostname = "localhost";
-        $bancodedados = "alunos";
+        $bancodedados = "cadastro";
         $usuario = "root";
         $senha = "";
 
@@ -47,8 +47,8 @@ class DAO
         $nome = $dadosArray["nome"];
         $nascimento = $dadosArray["nascimento"];
         $turma = $dadosArray['turma'];
-        $nacionalidade = $dadosArray['nac'];
-        $endereco = $dadosArray['end'];
+        $nacionalidade = $dadosArray['nacionalidade'];
+        $endereco = $dadosArray['endereco'];
 
         $salvar = $conexao->prepare("insert into $tabela values (default,'$nome','$nascimento','$turma','$nacionalidade','$endereco')");
         $salvar->execute();
