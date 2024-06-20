@@ -1,10 +1,16 @@
 <?php
 include_once '../Model/Alunos.Class.php';
 
-class DadosController extends Alunos {
+class DadosController extends Alunos
+{
 
-    public function InserirAluno($coisa){
+    public function InserirAluno($coisa)
+    {
         $this->InserirNoBanco($coisa);
+    }
+    public function Listar($dadosArray)
+    {
+        $this->ListarAlunos($dadosArray);
     }
 }
 
@@ -15,4 +21,3 @@ $DadosParaFuncao = get_object_vars($dadosArray['dados']);
 $funcao = $dadosArray['funcao'];
 $ObjAlunos = new DadosController;
 $ObjAlunos->$funcao($DadosParaFuncao);
-?>

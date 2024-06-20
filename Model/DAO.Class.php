@@ -12,17 +12,19 @@ class DAO
         $usuario = "root";
         $senha = "";
 
-
-        $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-        if ($conexao->connect_errno) {
-            $mensagem = "Falha ao conectar: (" . $conexao->connect_errno . ") " . $conexao->connect_error;
-        } else {
-            $mensagem = "Conectado!";
-        }
+        $conexao = new PDO('mysql:host=localhost; dbname=cadastro', "root", "", array(
+            PDO::ATTR_PERSISTENT => true
+        ));
+        // $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
+        // if ($conexao->connect_errno) {
+        //     $mensagem = "Falha ao conectar: (" . $conexao->connect_errno . ") " . $conexao->connect_error;
+        // } else {
+        //     $mensagem = "Conectado!";
+        // }
         return $conexao;
-        return $mensagem;
+    
     }
-
+    
     public function SelecionaIdAluno($dadosArray)
     {
 
@@ -34,7 +36,7 @@ class DAO
         $salvar = $conexao->prepare("select * from $tabela where $coluna = '$id'");
         $salvar->execute();
 
-        $resultado = $salvar->fetch(PDO::FETCH_ASSOC);
+        $resultado = $salvar->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($resultado);
     }
 
@@ -54,15 +56,27 @@ class DAO
         $salvar->execute();
     }
 
-    public function ListarAlunos(){
+    public function ListarAlunos($dadosArray){
         
         $conexao = $this->conexao();
 
-        $tabela = 'nome da tabela';
+        $tabela = 'alunos';
         $salvar = $conexao->prepare("select * from $tabela");
         $salvar->execute();
         $resultado = $salvar->fetch(PDO::FETCH_ASSOC);
         echo json_encode($resultado);
+    }
+
+    public function Login($dadosArray){
+
+        $conexao = $this->conexao();
+
+        $tabela = 'login';
+        $login = $dadosArray['email'];
+        $senha = $dadosArray['senha'];
+        $salvar = $conexao->prepare("insert into $tabela values (default,'$login','$senha')");
+        $salvar -> execute();
+
     }
 
    

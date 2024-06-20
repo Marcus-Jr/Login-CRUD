@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-image: linear-gradient(to right, aqua, rgb(3, 2, 26));
+    }
+
+
+
+    .box {
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: rgba(0, 0, 0, 0.6);
+        padding: 15px;
+        border-radius: 15px;
+        width: 24%;
+    }
+
+    fieldset {
+        border: 3px solid rgb(10, 100, 96);
+    }
+
+    legend {
+        border: 1px solid rgb(10, 100, 96);
+        padding: 10px;
+        text-align: center;
+        background-color: rgb(10, 100, 96);
+        border-radius: 10px;
+        color: white;
+    }
+
+    .inputBox {
+        position: relative;
+    }
+
+    .inputUser {
+        background: none;
+        border: none;
+        border-bottom: 1px solid white;
+        outline: none;
+        color: white;
+        font-size: 15px;
+        width: 100%;
+        letter-spacing: 1px;
+    }
+
+    .labelInput {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        pointer-events: none;
+        transition: .5s;
+    }
+
+    .inputUser:focus~.labelInput,
+    .inputUser:valid~.labelInput {
+        top: -20px;
+        font-size: 12px;
+        color: aqua;
+    }
+
+    #submit {
+        background-image: linear-gradient(to right, rgb(21, 133, 133), rgb(0, 1, 82));
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        color: white;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    #submit:hover {
+        background-image: linear-gradient(to right, rgb(16, 114, 114), rgb(1, 2, 68));
+    }
+
+
+    #back {
+        background-image: linear-gradient(to right, rgb(21, 133, 133), rgb(0, 1, 82));
+        color: white;
+        border: none;
+        border-radius: 80px;
+        padding: 15px;
+        font-size: 15px;
+        cursor: pointer;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    #back:hover {
+        background-image: linear-gradient(to right, rgb(32, 16, 114), rgb(1, 2, 68));
+    }
+</style>
+
+<body>
+    <div class="box">
+        <fieldset>
+            <legend><b>Login</b></legend>
+            <br>
+            <div id="txtinfo">
+                <div class="inputBox">
+                    <input type="email" name="email" id="email" class="inputUser" required>
+                    <label for="nome" class="labelInput">Email</label>
+                    <br><br>
+                </div>
+                <div class="inputBox">
+                    <input type="text" name="senha" id="senha" class="inputUser" required>
+                    <label for="senha" class="labelInput">Senha</label>
+                    <br><br>
+                </div>
+                
+                <button name="submit" id="submit" onclick="FazLogin()">Login</button>
+            </div>
+        </fieldset>
+    </div>
+</body>
+
+</html>
+
+<script>
+    function FazLogin() {
+        let formulario = {
+            'funcao': 'FazLogin',
+            'dados': {
+                'email': document.getElementById("email").value,
+                'senha': document.getElementById("senha").value,
+
+
+            }
+        }
+        let informacao = {
+            method: "POST",
+            body: JSON.stringify(formulario)
+        }
+        let url = "../Controller/DAOlogin.php"
+        let response = fetch(url, informacao)
+            .then((response) => response.json()).then((data) => {
+                console.log(data)
+            }).catch((error) => {
+                console.log('ERRO')
+            })
+    }
+</script>
