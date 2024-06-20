@@ -15,14 +15,7 @@ class DAO
         $conexao = new PDO('mysql:host=localhost; dbname=cadastro', "root", "", array(
             PDO::ATTR_PERSISTENT => true
         ));
-        // $conexao = new mysqli($hostname, $usuario, $senha, $bancodedados);
-        // if ($conexao->connect_errno) {
-        //     $mensagem = "Falha ao conectar: (" . $conexao->connect_errno . ") " . $conexao->connect_error;
-        // } else {
-        //     $mensagem = "Conectado!";
-        // }
         return $conexao;
-    
     }
     
     public function SelecionaIdAluno($dadosArray)

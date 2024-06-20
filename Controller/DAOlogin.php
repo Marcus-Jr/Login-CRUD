@@ -1,5 +1,6 @@
 <?php
 include '../Model/DAO.Class.php';
+
 class Login extends DAO {
 
 private $login;
@@ -37,12 +38,13 @@ private $senha;
         return $this;
     }
 }
+
 $post = file_get_contents('php://input');
-$ObjetoDados = json_decode($post);
-$dadosArray = get_object_vars($ObjetoDados);
+$objetoJson= json_decode($post);
+$dadosArray = get_object_vars($objetoJson);
 $DadosParaFuncao = get_object_vars($dadosArray['dados']);
 $funcao = $dadosArray['funcao'];
-$ObjAlunos = new DadosController;
-$ObjAlunos->$funcao($DadosParaFuncao);
+$ObjLogin = new Login;
+$ObjLogin->$funcao($DadosParaFuncao);
 
 ?>
