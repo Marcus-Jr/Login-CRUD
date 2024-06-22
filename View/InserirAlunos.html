@@ -12,6 +12,8 @@
         background-image: linear-gradient(to right, aqua, rgb(3, 2, 26));
     }
 
+
+
     .box {
         color: white;
         position: absolute;
@@ -98,77 +100,91 @@
         font-size: 15px;
         width: 80%;
     }
+    #back{
+        /* background-color: rgb(29, 160, 160); */
+        background-image: linear-gradient(to right, rgb(21, 133, 133), rgb(0, 1, 82));
+        color: white;
+        border: none;
+        border-radius: 80px;
+        padding: 15px;
+        font-size: 15px;
+        cursor: pointer;
+        box-shadow:0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+    #back:hover{
+        background-image: linear-gradient(to right, rgb(16, 114, 114), rgb(1, 2, 68));
+    }
 </style>
 
 <body>
     <div class="box">
-        <form action="">
             <fieldset>
                 <legend><b>Formulário de Alunos</b></legend>
                 <br>
-                <div class="inputBox">
-                    <input type="text" name="nome" id="nome" class="inputUser" required>
-                    <label for="nome" class="labelInput">Nome</label>
-                </div>
-                <br><br>
-                <label for="Nascimento">Data de nascimento</label>
-                <input type="date" name="nascimento" id="nascimento" required>
-                <br><br>
-                <div class="inputBox">
-                    <label for="Turma">Turma</label>
-                    <select name="turna" id="turma">
-                        <option selected>Selecione a turma</option>
-                        <option value="1ºA">1ºA</option>
-                        <option value="1ºB">1ºB</option>
-                        <option value="2ºA">2ºA</option>
-                        <option value="2ºB">2ºB</option>
-                        <option value="3ºA">3ºA</option>
-                        <option value="3ºB">3ºB</option>
-                    </select>
+                <div id="txtinfo">
+                    <div class="inputBox">
+                        <input type="text" name="nome" id="nome" class="inputUser" required>
+                        <label for="nome" class="labelInput">Nome</label>
+                    </div>
+                    <br><br>
+                    <label for="Nascimento">Data de nascimento</label>
+                    <input type="date" name="nascimento" id="nascimento" required>
+                    <br><br>
+                    <div class="inputBox">
+                        <label for="Turma">Turma</label>
+                        <select name="turna" id="turma">
+                            <option selected>Selecione a turma</option>
+                            <option value="1ºA">1ºA</option>
+                            <option value="1ºB">1ºB</option>
+                            <option value="2ºA">2ºA</option>
+                            <option value="2ºB">2ºB</option>
+                            <option value="3ºA">3ºA</option>
+                            <option value="3ºB">3ºB</option>
+                        </select>
 
+                    </div>
+                    <br><br>
+                    <div class="inputBox">
+                        <input type="text" name="nac" id="nac" class="inputUser" required>
+                        <label for="nac" class="labelInput">Nacionalidade</label>
+                    </div>
+                    <br><br>
+                    <div class="inputBox">
+                        <input type="text" name="end" id="end" class="inputUser" required>
+                        <label for="end" class="labelInput">Endereço</label>
+                    </div>
+                    <br><br>
+                    <button name="submit" id="submit" onclick="enviaDados()">Enviar</button>
                 </div>
-                <br><br>
-                <div class="inputBox">
-                    <input type="text" name="nac" id="nac" class="inputUser" required>
-                    <label for="nac" class="labelInput">Nacionalidade</label>
-                </div>
-                <br><br>
-                <div class="inputBox">
-                    <input type="text" name="end" id="end" class="inputUser" required>
-                    <label for="end" class="labelInput">Endereço</label>
-                </div>
-                <br><br>
-                <button type="submit" name="submit" id="submit" onclick="enviaDados()">Enviar</button>
             </fieldset>
-        </form>
     </div>
 </body>
 
 </html>
+
 <script>
-    enviaDados();{
-        
-        let info = {
-            method: "GET",
-            body: {
-                dados:[
-                    nome= document.getElementById('nome'),
-                    nascimento=  document.getElementById('nascimento'),
-                    turma= document.getElementById('turma'),
-                    nacionalidade= document.getElementById('nac'),
-                    endereco= document.getElementById('end')
+    function enviaDados() {
+        let formulario = {
+            'funcao': 'InserirAluno',
+            'dados': {
+                'nome': document.getElementById("nome").value,
+                'nascimento': document.getElementById("nascimento").value,
+                'turma': document.getElementById("turma").value,
+                'nacionalidade': document.getElementById("nac").value,
+                'endereco': document.getElementById("end").value,
 
-            ]
             }
-        };
-
-        fetch("../Model/DAO.Class.php", info)
-            .then(function (response) {
-                return response.blob();
+        }
+        let informacao = {
+            method: "POST",
+            body: JSON.stringify(formulario)
+        }
+        let url = "../Controller/DAOalunos.php"
+        let response = fetch(url, informacao)
+            .then((response) => response.json()).then((data) => {
+                console.log(data)
+            }).catch((error) => {
+                console.log('ERRO')
             })
-            .then(function (myBlob) {
-                var objectURL = URL.createObjectURL(myBlob);
-                myImage.src = objectURL;
-            });
-    }
+        }
 </script>
