@@ -1,124 +1,127 @@
 <?php
 class DAO
 {
-    private $NomeDB;
-    private $Senha;
-    private $sucesso;
 
-    public function Conexao()
+    public function connect()
     {
-        $hostname = "localhost";
-        $bancodedados = "cadastro";
-        $usuario = "root";
-        $senha = "";
-
-        $conexao = new PDO('mysql:host=localhost; dbname=cadastro', "root", "", array(
+        $connect = new PDO('mysql:host=localhost; dbname=school_crud', "root", "", array(
             PDO::ATTR_PERSISTENT => true
         ));
-        return $conexao;
+        return $connect;
+    }
+
+    public function executeOne($sql, $data = null){
+        try {
+            $stmt = $this->connect()->prepare($sql);
+            $stmt->execute($data);
+            $return = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $return ? $return : true;
+        } catch (Exception $e){
+            return ['error' => $e->getMessage()];
+        }
+    }
+
+    public function executeAll($sql, $data = null){
+        try{
+            $stmt = $this->connect()->prepare($sql);
+            $stmt->execute($data);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Exception $e){
+            return ['error' => $e->getMessage()];
+        }
     }
     
-    public function SelecionaIdAluno($dadosArray)
-    {
+    public function Inserir($tabela, $dados){
 
-        $conexao = $this->Conexao();
-
-        $tabela = 'nome da tabela';
-        $coluna = 'nome da coluna';
-        $id = $dadosArray;
-        $salvar = $conexao->prepare("select * from $tabela where $coluna = '$id'");
-        $salvar->execute();
-
-        $resultado = $salvar->fetchAll(PDO::FETCH_ASSOC);
+        $campos = implode(", ", array_keys($dados));
+        $values = array_values($dados);
+        $placeholders = implode(", ", array_fill(0, count($dados), "?"));
+        $sql = "INSERT INTO $tabela ($campos) VALUES ($placeholders)";
+        $resultado = $this->executeOne($sql, $values);
         echo json_encode($resultado);
+
     }
 
-    public function InserirNoBanco($dadosArray)
-    {
+    public function Listar($tabela){
 
-        $conexao = $this->Conexao();
+        $sql = "SELECT * FROM $tabela";
+        $resultado = $this->executeAll($sql);
+        echo json_encode($resultado);
 
-        $tabela = 'alunos';
-        $nome = $dadosArray["nome"];
-        $nascimento = $dadosArray["nascimento"];
-        $turma = $dadosArray['turma'];
-        $nacionalidade = $dadosArray['nacionalidade'];
-        $endereco = $dadosArray['endereco'];
-
-        $salvar = $conexao->prepare("insert into $tabela values (default,'$nome','$nascimento','$turma','$nacionalidade','$endereco')");
-        $salvar->execute();
     }
 
-    public function ListarAlunos($dadosArray){
+    public function Buscar($tabela, $condicao){
+
+        $whereClause = $this->processaCondicao($condicao);
+        $sql   = "SELECT * FROM $tabela WHERE $whereClause[clause]";
+        $result = $this->executeOne($sql, $whereClause['values']);
+        echo json_encode($result);
+
+    }
+
+    public function BuscarCampos($tabela, $condicao, $campos){
+
+        $campos = $this->processaCampos($campos);
+        $whereClause = $this->processaCondicao($condicao);
+        $sql   = "SELECT $campos FROM $tabela WHERE $whereClause[clause] ";
+        $result = $this->executeOne($sql, $whereClause['values']);
+        echo json_encode($result);
+
+    }
+
+    public function Excluir($tabela, $condicao){
+
+        $whereClause = $this->processaCondicao($condicao);
+        $sql = "DELETE FROM $tabela WHERE $whereClause[clause]";
+        $return = $this->executeOne($sql, $whereClause['values']);
+        echo json_encode($return);
+    }
+
+    public function Editar($tabela, $dados, $condicao){
         
-        $conexao = $this->conexao();
-
-        $tabela = 'alunos';
-        $salvar = $conexao->prepare("select * from $tabela");
-        $salvar->execute();
-        $resultado = $salvar->fetch(PDO::FETCH_ASSOC);
-        echo json_encode($resultado);
+        $set = $this->processaDados($dados);
+        $whereClause = $this->processaCondicao($condicao);
+        $sql   = "UPDATE $tabela SET $set WHERE $whereClause[clause]";
+        $return = $this->executeOne($sql, $whereClause['values']);
+        echo json_encode($return);
     }
 
-    public function Login($dadosArray){
+    public function processaDados($dados){
+        $setPartes = [];
+        foreach ($dados as $coluna => $valor) {
+            $valorEscapado = addslashes($valor);
+            $setPartes[] = "$coluna = '$valorEscapado'";
+        }
+        $set = implode(", ", $setPartes);
+        
+        return $set;
+    } 
 
-        $conexao = $this->conexao();
+    public function processaCondicao($condicao) {
+        $clauseParts = [];
+        $values = [];
 
-        $tabela = 'login';
-        $login = $dadosArray['email'];
-        $senha = $dadosArray['senha'];
-        $salvar = $conexao->prepare("insert into $tabela values (default,'$login','$senha')");
-        $salvar -> execute();
+        foreach ($condicao as $coluna => $valor) {
+            $clauseParts[] = "$coluna = ?";
+            $values[] = $valor;
+        }
 
+        return [
+            'clause' => implode(" AND ", $clauseParts),
+            'values' => $values
+        ];
     }
 
-   
-    public function getNomeDB()
-    {
-        return $this->NomeDB;
+    public function processaValues($dados){
+        return implode(" , ", array_map(function ($valor) {
+            return "'" . addslashes($valor) . "'";
+        }, array_values($dados)));
     }
 
-    public function setNomeDB($NomeDB): self
-    {
-        $this->NomeDB = $NomeDB;
-
-        return $this;
+    public function processaCampos($dados){
+        return implode(" , ", array_map(function ($valor) {
+            return addslashes($valor);
+        }, array_values($dados)));
     }
 
-   
-    public function getSenha()
-    {
-        return $this->Senha;
-    }
-
-   
-    public function setSenha($Senha): self
-    {
-        $this->Senha = $Senha;
-
-        return $this;
-    }
-
-   
-    public function getSucesso()
-    {
-        return $this->sucesso;
-    }
-
-   
-    public function setSucesso($sucesso): self
-    {
-        $this->sucesso = $sucesso;
-
-        return $this;
-    }
-}
-function insereAluno()
-{
-}
-function atualizaAluno()
-{
-}
-function deletaAluno()
-{
 }
