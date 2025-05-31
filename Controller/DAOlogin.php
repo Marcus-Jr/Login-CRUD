@@ -21,15 +21,15 @@ class LoginController extends Login
 
         if(!empty($user)){
             if(password_verify($dados->senha, $user['SENHA'])) {
-                $retorno = ['success' => true, 'message' => 'Bem vindo,' . $user['USUARIO']];
+                $retorno = ['success' => true, 'message' => 'Bem vindo, ' . $user['USUARIO'] . '!'];
             } else {
                 $retorno = ['success' => false, 'message' => 'Dados incorretos!'];
             }
         } else {
-            $retorno = ['success' => false, 'message' => 'Dados incorretos!'];
+            $retorno = ['success' => false, 'message' => 'Usuário não encontrado!'];
         }
-        
-        return json_encode($retorno);
+
+        echo json_encode($retorno);
     }
 
     public function BuscaUsuario($dados){

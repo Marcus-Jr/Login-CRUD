@@ -65,7 +65,7 @@ class DAO
         $whereClause = $this->processaCondicao($condicao);
         $sql   = "SELECT $campos FROM $tabela WHERE $whereClause[clause] ";
         $result = $this->executeOne($sql, $whereClause['values']);
-        echo json_encode($result);
+        return $result;
 
     }
 

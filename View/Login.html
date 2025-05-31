@@ -43,7 +43,7 @@ body {
                     <a href="PrimeiroAcesso.html" style="color: #2575fc; text-decoration: none;">Primeiro acesso</a>
 
                     <div style="display: flex; justify-content: space-between;">
-                        <button onclick="FazLogin()" class="loginButton">Login</button>
+                        <button type="submit" class="loginButton">Login</button>
                     </div>
                 </fieldset>
             </form>
@@ -57,22 +57,23 @@ body {
     FazLogin = () => {
         if(VerificaDados()){
 
-            let formulario = {
+            const formulario = {
                 'funcao': 'Logar',
                 'dados': {
                     'email': document.getElementById("email").value,
                     'senha': document.getElementById("senha").value,
                 }
             }
-            let informacao = {
+            const informacao = {
                 method: "POST",
                 body: JSON.stringify(formulario)
             }
-            let url = "../Controller/DAOlogin.php"
-            let response = fetch(url, informacao)
+            const url = "../Controller/DAOlogin.php"
+            const response = fetch(url, informacao)
             .then((response) => response.json()).then((data) => {
                 if(data.success){
                     alert(data.message)
+                    location.href = 'Inicio.html';
                 } else {
                     alert(data.message)
                 }
