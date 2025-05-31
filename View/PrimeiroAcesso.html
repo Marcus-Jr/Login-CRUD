@@ -24,26 +24,36 @@ body {
 <body>
     <main class="login-container">
         <header class="header">
-            <h1 class="titulo">Faça o seu login</h1>
+            <h1 class="titulo">Faça o seu Cadastro</h1>
         </header>
 
         <div class="login-box">
-            <form onsubmit="FazLogin(); return false;">
+            <form onsubmit="PrimeiroAcesso(); return false;">
                 <fieldset>
+                    <div class="inputBox">
+                        <label for="nome" class="labelInput">Nome</label>
+                        <input type="nome" name="nome" id="nome" class="inputStyle" required>
+                    </div>
                     <div class="inputBox">
                         <label for="email" class="labelInput">Email</label>
                         <input type="email" name="email" id="email" class="inputStyle" required>
+                    </div>
+                    <div class="inputBox">
+                        <label for="email" class="labelInput">Confirme o Email</label>
+                        <input type="email" name="emailConf" id="emailConf" class="inputStyle" required>
                     </div>
 
                     <div class="inputBox">
                         <label for="senha" class="labelInput">Senha</label>
                         <input type="password" name="senha" id="senha" class="inputStyle" required>
                     </div>
-
-                    <a href="PrimeiroAcesso.html" style="color: #2575fc; text-decoration: none;">Primeiro acesso</a>
+                    <div class="inputBox">
+                        <label for="senha" class="labelInput">Confirme a Senha</label>
+                        <input type="password" name="senhaConf" id="senhaConf" class="inputStyle" required>
+                    </div>
 
                     <div style="display: flex; justify-content: space-between;">
-                        <button onclick="FazLogin()" class="loginButton">Login</button>
+                        <button type="submit" class="loginButton">Confirmar</button>
                     </div>
                 </fieldset>
             </form>
@@ -54,12 +64,13 @@ body {
 </html>
 
 <script>
-    FazLogin = () => {
+    PrimeiroAcesso = () => {
         if(VerificaDados()){
 
             let formulario = {
-                'funcao': 'Logar',
+                'funcao': 'InserirAcesso',
                 'dados': {
+                    'nome': document.getElementById("nome").value,
                     'email': document.getElementById("email").value,
                     'senha': document.getElementById("senha").value,
                 }
@@ -71,27 +82,30 @@ body {
             let url = "../Controller/DAOlogin.php"
             let response = fetch(url, informacao)
             .then((response) => response.json()).then((data) => {
-                if(data.success){
-                    alert(data.message)
-                } else {
-                    alert(data.message)
-                }
+                console.log(data)
             }).catch((error) => {
-                console.log('ERRO')
+                console.log(error)
             })
         }
     }
 
     VerificaDados = () => {
+        
         const email = document.getElementById("email").value
+        const emailConf = document.getElementById("emailConf").value
         const senha = document.getElementById("senha").value
+        const senhaConf = document.getElementById("senhaConf").value
 
-        if(!email){
-            alert('Digite um Email')
+        if(email != emailConf){
+            alert('Os emails devem ser iguais')
             return false;
         }
-        if(!senha){
-            alert('Digite uma senha')
+        if(senha != senhaConf){
+            alert('As senhas devem ser iguais')
+            return false;
+        }
+        if(senha.length < 5){
+            alert('A senha deve possuir mais de 5 caracteres')
             return false;
         }
         return true;

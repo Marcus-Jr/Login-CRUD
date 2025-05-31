@@ -4,64 +4,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../Css/style.css">
     <title>Cadastro</title>
 </head>
+<style>
+.tabela {
+  width: 70%;
+  border-collapse: collapse;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-<body class="fundo">
+.tabela thead {
+  background-color: #ff8e3c;
+  color: white;
+}
+
+.tabela th,
+.tabela td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabela tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+@media (max-width: 768px) {
+  .tabela th,
+  .tabela td {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+.botao {
+  padding: 6px 12px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.botao-editar {
+  background-color: #2196F3;
+  color: white;
+}
+
+.botao-excluir {
+  background-color: #f44336;
+  color: white;
+}
+
+.botao:hover {
+  opacity: 0.9;
+}
+</style>
+
+<body>
+
+    <nav class="menu-lateral">
+        
+        <div class="btn-expandir">
+            <i class="bi bi-list"></i>
+        </div>
+
+        <ul>
+            <li class="item-menu">
+                <a href="#">
+                    <span class="icon"><i class="bi bi-house"></i></span>
+                    <span class="txt-link">Inicio</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="ListaAlunos.html">
+                    <span class="icon"><i class="bi bi-person-fill"></i></span>
+                    <span class="txt-link">Alunos</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="InserirAlunos.html">
+                    <span class="icon"><i class="bi bi-person-fill-add"></i></span>
+                    <span class="txt-link">Novo aluno</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="#">
+                    <span class="icon"><i class="bi bi-columns-gap"></i></span>
+                    <span class="txt-link">Atividades</span>
+                </a>
+            </li>
+            <li class="item-menu">
+                <a href="#">
+                    <span class="icon"><i class="bi bi-gear"></i></span>
+                    <span class="txt-link">Configurações</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
     <section>
         <div class="container">
-            <table class="tabela">
-                <thead>
+            <div>
 
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Aluno</th>
-                        <th scope="col">Curso</th>
-                        <th scope="col">Nascimento</th>
-                    </tr>
-
-                </thead>
-                <tbody id="tbody">
-
-                </tbody>
-            </table>
+                <table class="tabela">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Aluno</th>
+                        <th>Turma</th>
+                        <th>Nascimento</th>
+                        <th>Editar | Excluir</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="container">
-            <table class="table">
-                <div class="d-grid gap-2 col-6 mx-auto">
-                    <button class="button" onclick="history.back()">Voltar</button>
-                </div>
-            </table>
-        </div>
-
-
     </section>
 </body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     ChamaLista = () => {
-        let formulario = {
-            funcao: 'Listar',
-            dados: {
-                nome: "Aluno",
-                nascimento: "Nascimento",
-                turma: "Turma",
-                nacionalidade: "Nacionalidade",
-                endereco: "Endereco",
-            }
+        const formulario = {
+            funcao: 'ListarAlunos',
+            dados: ''
         }
-        let informacao = {
+        const informacao = {
             method: "POST",
             body: JSON.stringify(formulario)
         }
-        let url = "../Controller/DAOalunos.php"
-        let response = fetch(url, informacao)
+        const url = "../Controller/DAOalunos.php"
+        const response = fetch(url, informacao)
             .then((response) => response.json()).then((data) => {
                 console.log(data)
 
                 let tbody = document.getElementById('tbody');
 
-                for (let i = 0; i < data.length; i++) {
+                for (let i = 0; i < data.length; i+=1) {
 
                     let tr = tbody.insertRow();
 
@@ -69,21 +156,53 @@
                     let td_aluno = tr.insertCell();
                     let td_turma = tr.insertCell();
                     let td_nascimento = tr.insertCell();
+                    let td_acoes = tr.insertCell();
 
-                    td_id.innerText = data[i].AlunoId
-                    td_aluno.innerText = data[i].Aluno
-                    td_turma.innerText = data[i].Turma
-                    td_nascimento.innerText = data[i].Nascimento
+                    td_id.innerText = data[i].ID_ALUNO
+                    td_aluno.innerText = data[i].NOME
+                    td_turma.innerText = data[i].TURMA
+                    td_nascimento.innerText = new Date(data[i].NASCIMENTO).toLocaleDateString()
+
+
+                    const btnEditar = document.createElement("button");
+                    btnEditar.innerText = "Editar";
+                    btnEditar.className = "botao botao-editar";
+                    btnEditar.onclick = function () {
+                        window.location.href = 'EditarAlunos.html?idAluno='+ data[i].ID_ALUNO
+                    };
+
+                    const btnExcluir = document.createElement("button");
+                    btnExcluir.innerText = "Excluir";
+                    btnExcluir.className = "botao botao-excluir";
+                    btnExcluir.onclick = function () {
+                        ExcluirAluno(data[i].ID_ALUNO);
+                    };
+                    td_acoes.appendChild(btnEditar);
+                    td_acoes.appendChild(btnExcluir);
 
 
 
                 }
             })
     }
+    ExcluirAluno = (id) => {
+        const url = "../Controller/DAOalunos.php"
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({
+                funcao: 'ExcluirAluno',
+                dados: {
+                    id
+                }
+            })
+        }).then(response => response.json()).then(data => {
+            if(data){
+                alert('Aluno exluído com sucesso!');
+                location.reload();
+            }
+        }).catch(error => {
+            console.log('ERRO');
+        })
+    }
     ChamaLista()
 </script>
-
-</html>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
