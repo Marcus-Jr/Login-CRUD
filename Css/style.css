@@ -7,13 +7,12 @@
 
 body {
     height: 900vh;
-    background-image: linear-gradient(to right, aqua, rgb(3, 2, 26));
+    background-color: #0f0e17;
 }
 
 nav.menu-lateral {
     width: 80px;
     height: 100%;
-    background-color: rgb(3, 2, 26);
     padding: 40px 0 40px 1%;
     box-shadow: 3px 0 0 aqua;
     position: fixed;
