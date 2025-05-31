@@ -5,17 +5,17 @@
     font-family: 'Outfit', sans-serif;
 }
 
-body {
-    height: 900vh;
-    background-image: linear-gradient(to right, aqua, rgb(3, 2, 26));
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
 }
 
 nav.menu-lateral {
     width: 80px;
     height: 100%;
-    background-color: rgb(3, 2, 26);
+    background-color:#0d0d0d;
     padding: 40px 0 40px 1%;
-    box-shadow: 3px 0 0 aqua;
     position: fixed;
     top: 0;
     left: 0;
@@ -48,7 +48,7 @@ ul li.item-menu {
 }
 
 ul li.item-menu:hover {
-    background-color: aqua
+    background-color: #ff8e3c
 }
 
 ul li.item-menu a {
@@ -77,20 +77,80 @@ ul li.item-menu a .icon>i {
     text-align: center;
     color: aliceblue;
 }
-.fundo{
-    background-color: rgb(3, 2, 26);
-}
-.container{
-    color: aliceblue;
+
+button {
+    width: 48%;
+    padding: 10px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
 }
 
-.tabela{
-    background-color: transparent;
-    margin: auto;
+#submit:first-of-type {
+    background-color: #28a745;
+    color: white;
+    margin-right: 4%;
+}
+
+#submit:last-of-type {
+    background-color: #dc3545;
+    color: white;
+}
+
+.loginButton {
+    background-color: #ff8906;
+    color: white;
+    width: 100%;
+    left: 50%;
+}
+
+fieldset {
+    border: none;
+}
+
+legend {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.inputBox {
+    margin-bottom: 15px;
+}
+
+.labelInput {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.inputStyle, .selectStyle {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
     
 }
 
-th{
-    padding: 0 3em;
+.login-container {
+    padding: 40px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
+.login-box {
+    background-color: #fff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 400px;
+}
