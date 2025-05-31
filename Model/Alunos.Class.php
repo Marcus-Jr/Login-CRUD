@@ -7,6 +7,15 @@ class Alunos extends DAO{
     protected $nacionalidade;
     protected $endereco;
 
+    const TABELA = 'ALUNOS';
+
+    const ID = 'ID_ALUNO';
+    const NOME = 'NOME';
+    const NASCIMENTO = 'NASCIMENTO';
+    const TURMA = 'TURMA';
+    const NACIONALIDADE = 'NACIONALIDADE';
+    const ENDERECO = 'ENDERECO';
+
     function __construct()
     {
         
